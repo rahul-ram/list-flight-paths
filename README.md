@@ -16,7 +16,7 @@ Tested on Windows Subsystem for Linux (`Ubuntu version 2`) with python 3.10.6
 3) `virtualenv venv`
 4) `. venv/bin/activate`
 5) `pip install click`
-6) `pip install --editable .` or `pip install --editable .`
+6) `pip install --editable .` or `pip install -e .`
 
 ### To run 
 1) `cd venv`
