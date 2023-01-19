@@ -98,6 +98,90 @@ class Graph:  # {
         print(result)
         return paths
     # }
+
+    def find_shortest_path(self, start, end, path=[]):  # {
+        """
+        :param start: name of the starting node/city
+        :param end: name of the destination node/city
+        :param path: intermediate path
+        :return: list of possible paths
+        """
+        path = path + [start]
+        if start == end:  # {
+            return path
+        # }
+        if start not in self.graph_dict:  # {
+            return None
+        # }
+        shortest_path = None
+        for node in self.graph_dict[start]:  # {
+            if node not in path:  # {
+                sp = self.find_shortest_path(node, end, path)
+                if sp:  # {
+                    if shortest_path is None or len(sp) < len(shortest_path):  # {
+                        shortest_path = sp
+                    # }
+                # }
+            # }
+        # }
+        return shortest_path
+
+    # }
+
+    def find_min_cost_path(self, start, end):  # {
+        """
+        find the least costing path between nodes
+        """
+        paths = self.find_all_paths(start, end)
+        min_cost = 10 ** 99
+        min_path = []
+        for path in paths:  # {
+            cost = sum(self.graph_dict[i][j] for i, j in zip(path, path[1::]))
+            if cost < min_cost:  # {
+                min_cost = cost
+                min_path = path
+            # }
+        # }
+        return min_path
+
+    # }
+
+    def get_shortest_path(self, start, end):  # {
+        if start not in self.nodes:  # {
+            # sys.exit(os.EX_IOERR)
+            sys.exit(f"Invalid start node -> {start}")
+        # }
+        if end not in self.nodes:  # {
+            # sys.exit(os.EX_IOERR)
+            sys.exit(f"Invalid end node -> {end}")
+        # }
+        s_path = self.find_shortest_path(start, end)
+        result = ""
+        if s_path:  # {
+            cost = sum(self.graph_dict[i][j] for i, j in zip(s_path, s_path[1::]))
+            result += " -> ".join(str(x) for x in s_path) + f": {cost}\n"
+        # }
+        print(result)
+
+    # }
+
+    def get_min_cost_path(self, start, end):  # {
+        if start not in self.nodes:  # {
+            # sys.exit(os.EX_IOERR)
+            sys.exit(f"Invalid start node -> {start}")
+        # }
+        if end not in self.nodes:  # {
+            # sys.exit(os.EX_IOERR)
+            sys.exit(f"Invalid end node -> {end}")
+        # }
+        s_path = self.find_min_cost_path(start, end)
+        result = ""
+        if s_path:  # {
+            cost = sum(self.graph_dict[i][j] for i, j in zip(s_path, s_path[1::]))
+            result += " -> ".join(str(x) for x in s_path) + f": {cost}\n"
+        # }
+        print(result)
+    # }
 # }
 
 
